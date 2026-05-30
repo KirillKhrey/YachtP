@@ -15,7 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
 
         // ✅ CORS (ВАЖНО для React)
-        $middleware->append(\Illuminate\Http\Middleware\HandleCors::class);
+        //$middleware->append(\Illuminate\Http\Middleware\HandleCors::class);
 
         // твой role middleware
         $middleware->alias([

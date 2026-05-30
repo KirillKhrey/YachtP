@@ -13,12 +13,12 @@ export default function AuthPage() {
 
   // register state
   const [reg, setReg] = useState({
-    email: "",
-    password: "",
-    fullName: "",
-    study_group: "",
-    phone: "",
-  });
+  email: "",
+  password: "",
+  full_name: "",
+  study_group: "",
+  phone: "",
+});
 
     const handleLogin = async (e) => {
     e.preventDefault();
@@ -119,9 +119,9 @@ export default function AuthPage() {
 
             <label>ФИО</label>
             <input
-              value={reg.fullName}
+              value={reg.full_name}
               onChange={(e) =>
-                setReg({ ...reg, fullName: e.target.value })
+                setReg({ ...reg, full_name: e.target.value })
               }
               required
             />
