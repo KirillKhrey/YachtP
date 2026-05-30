@@ -1,4 +1,6 @@
 import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
+
 import "../../styles/sidebar.css";
 
 import HouseIcon from "../../assets/icons/house.svg";
@@ -10,9 +12,10 @@ import ProfileIcon from "../../assets/icons/user.svg";
 import SettingsIcon from "../../assets/icons/settings.svg";
 
 export default function Sidebar({ open, setOpen }) {
-  const role = "user";
-
-  const closeSidebar = () => setOpen(false);
+    
+    const role = useSelector((state) => state.auth.user?.role);
+    
+    const closeSidebar = () => setOpen(false);
 
   return (
     <>

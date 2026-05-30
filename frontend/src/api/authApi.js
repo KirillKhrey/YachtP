@@ -1,5 +1,7 @@
 import api from "./axios";
 
+export const csrf = () => api.get("/sanctum/csrf-cookie");
+
 export const loginRequest = (data) => api.post("/auth/login", data);
 export const registerRequest = (data) => api.post("/auth/register", data);
 export const logoutRequest = () => api.post("/auth/logout");

@@ -1,51 +1,67 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 import "./AuthPage.css";
 import logo from "../../assets/icons/yacht_logo.svg";
 
-import { loginRequest, registerRequest } from "../../api/authApi";
+import {
+  loginRequest,
+  registerRequest,
+  csrf,
+  meRequest,
+} from "../../api/authApi";
+
+import { setUser } from "../../store/authSlice";
 
 export default function AuthPage() {
-  const [mode, setMode] = useState("login"); // login | register
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  // login state
+  const [mode, setMode] = useState("login");
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // register state
   const [reg, setReg] = useState({
-  email: "",
-  password: "",
-  full_name: "",
-  study_group: "",
-  phone: "",
-});
+    email: "",
+    password: "",
+    full_name: "",
+    study_group: "",
+    phone: "",
+  });
 
-    const handleLogin = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
     try {
-        const res = await loginRequest({ email, password });
+      await csrf(); // ❗ ОБЯЗАТЕЛЬНО Sanctum
 
-        localStorage.setItem("token", res.data.token);
+      await loginRequest({ email, password });
 
-        window.location.href = "/";
+      const me = await meRequest();
+
+      dispatch(setUser(me.data));
+      navigate("/");
     } catch (err) {
-        console.error(err.response?.data || err);
+      console.error(err);
     }
-    };
+  };
 
-    const handleRegister = async (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
 
     try {
-        await registerRequest(reg);
+      await csrf(); // тоже нужно
 
-        alert("Заявка отправлена");
-        setMode("login");
+      await registerRequest(reg);
+
+      alert("Заявка отправлена");
+      setMode("login");
     } catch (err) {
-        console.error(err.response?.data || err);
+      console.error(err);
     }
-    };
+  };
 
   return (
     <div className="auth-wrapper">
@@ -72,7 +88,6 @@ export default function AuthPage() {
           </button>
         </div>
 
-        {/* LOGIN */}
         {mode === "login" && (
           <form className="auth-form" onSubmit={handleLogin}>
             <label>Email</label>
@@ -95,7 +110,6 @@ export default function AuthPage() {
           </form>
         )}
 
-        {/* REGISTER */}
         {mode === "register" && (
           <form className="auth-form" onSubmit={handleRegister}>
             <label>Email</label>

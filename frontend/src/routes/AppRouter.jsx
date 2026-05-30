@@ -1,23 +1,27 @@
 import { Routes, Route, Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+
 import Layout from "../components/layout/Layout";
 import HomePage from "../pages/Home/HomePage";
 import AuthPage from "../pages/Auth/AuthPage";
 
 function ProtectedRoute({ children }) {
-  const token = localStorage.getItem("token");
+  const { isAuthenticated } = useSelector((state) => state.auth);
 
-  if (!token) {
+  if (!isAuthenticated) {
     return <Navigate to="/auth" replace />;
   }
 
   return children;
 }
 
-function AppRouter() {
+export default function AppRouter() {
   return (
     <Routes>
+      {/* публичный роут */}
       <Route path="/auth" element={<AuthPage />} />
 
+      {/* защищённая зона */}
       <Route
         element={
           <ProtectedRoute>
@@ -30,5 +34,3 @@ function AppRouter() {
     </Routes>
   );
 }
-
-export default AppRouter;

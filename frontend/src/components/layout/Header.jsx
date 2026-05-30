@@ -1,5 +1,9 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 import { logoutRequest } from "../../api/authApi";
+import { logout } from "../../store/authSlice";
 
 import "../../styles/header.css";
 import logo from "../../assets/icons/yacht_logo.svg";
@@ -8,6 +12,9 @@ import MoonIcon from "../../assets/icons/moon.svg";
 import BellIcon from "../../assets/icons/bell.svg";
 
 export default function Header() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [theme, setTheme] = useState("light");
   const [notifOpen, setNotifOpen] = useState(false);
 
@@ -17,9 +24,15 @@ export default function Header() {
     document.body.classList.toggle("dark-theme");
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    window.location.href = "/auth";
+  const handleLogout = async () => {
+    try {
+      await logoutRequest();
+    } catch (err) {
+      console.error(err);
+    }
+
+    dispatch(logout());
+    navigate("/auth");
   };
 
   return (
@@ -37,9 +50,7 @@ export default function Header() {
         <div className="header-actions">
 
           <button className="header-icon-btn" onClick={toggleTheme}>
-            <img
-              src={theme === "dark" ? SunIcon : MoonIcon}
-            />
+            <img src={theme === "dark" ? SunIcon : MoonIcon} />
           </button>
 
           {/* notifications */}
