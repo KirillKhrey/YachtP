@@ -1,0 +1,150 @@
+.header-container {
+  max-width: 1280px;
+  height: 100%;
+
+  margin: 0 auto;
+  padding: 0 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* LOGO */
+.header-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 6px 10px;
+  border-radius: 12px;
+}
+
+.header-logo:hover {
+  background: #f3f4f6;
+}
+
+.header-logo-icon {
+  width: 36px;
+  height: 36px;
+}
+
+.header-logo-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.header-title {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.header-subtitle {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* ACTIONS */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.header-icon-btn {
+  width: 42px;
+  height: 42px;
+
+  border: none;
+  border-radius: 12px;
+  background: transparent;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+}
+
+.header-icon-btn:hover {
+  background: #f3f4f6;
+}
+
+.header-icon {
+  width: 20px;
+  height: 20px;
+}
+
+/* NOTIFICATIONS */
+.notification-wrapper {
+  position: relative;
+}
+
+.notification-dropdown {
+  position: absolute;
+  top: 52px;
+  right: 0;
+
+  width: 320px;
+
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+
+  box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+  z-index: 2000;
+}
+
+.notification-header {
+  padding: 16px;
+  border-bottom: 1px solid #e5e7eb;
+  font-weight: 600;
+}
+
+.notification-list {
+  max-height: 360px;
+  overflow-y: auto;
+}
+
+.notification-item {
+  padding: 14px 16px;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.notification-item:hover {
+  background: #f3f4f6;
+}
+
+.notification-read-btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  background: #f9fafb;
+}
+
+/* LOGOUT */
+.logout-btn {
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+.logout-btn:hover {
+  background: #f3f4f6;
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+  .notification-dropdown {
+    position: fixed;
+    top: 64px;
+    left: 10px;
+    right: 10px;
+    width: auto;
+  }
+
+  .logout-btn {
+    display: none;
+  }
+}

@@ -1,16 +1,257 @@
-# React + Vite
+# Frontend Architecture
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Общая концепция
 
-Currently, two official plugins are available:
+Фронтенд — SPA-приложение на React.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+В отличие от классического PHP-подхода, приложение загружается один раз, после чего вся навигация и обновление интерфейса происходят внутри браузера без перезагрузки страниц.
 
-## React Compiler
+Все данные поступают и синхронизируются через Laravel API.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## Общая архитектура
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Система разделена на 5 основных слоёв:
+
+```text
+UI        → pages + components
+API       → взаимодействие с backend
+STATE     → Redux Toolkit (глобальные данные)
+ROUTING   → React Router
+RESOURCES → assets + styles
+```
+
+---
+
+## Поток данных
+
+```text
+User Action
+    ↓
+React UI (pages/components)
+    ↓
+API Layer (Axios)
+    ↓
+Laravel Backend
+    ↓
+PostgreSQL
+    ↓
+Response → Redux / UI update
+```
+
+---
+
+## Структура проекта
+
+```text
+src/
+├── api/            # Слой работы с backend
+│   ├── axios.js    # базовая конфигурация Axios
+│   └── authApi.js  # авторизация и связанные запросы
+│
+├── store/          # Redux Toolkit (глобальное состояние)
+│   └── authSlice.js
+│
+├── routes/         # маршрутизация приложения
+│   └── AppRouter.jsx
+│
+├── pages/          # страницы (уровень маршрутов)
+│   └── Auth/
+│       ├── AuthPage.jsx
+│       └── AuthPage.css
+│
+├── components/     # переиспользуемые UI-компоненты
+│
+├── styles/         # глобальные стили и layout
+│
+├── assets/         # статические ресурсы
+│
+├── App.jsx         # корневой компонент
+└── main.jsx        # entry point приложения
+```
+
+---
+
+## Уровни приложения
+
+```text
+1. Entry layer    → main.jsx
+2. App layer      → App.jsx
+3. Routing layer  → AppRouter.jsx
+4. Feature layer  → pages + components
+```
+
+---
+
+## Маршрутизация
+
+Навигация реализована через React Router.
+
+Каждая страница имеет свой маршрут:
+
+```text
+/auth
+/home
+/profile
+/events
+/gallery
+/tasks
+/moderation
+```
+
+Маршруты централизованы и являются единственным источником правды для структуры навигации.
+
+---
+
+## Компонентная модель
+
+Интерфейс строится из React-компонентов двух типов:
+
+### Pages (страницы)
+
+* привязаны к маршрутам
+* содержат бизнес-логику страницы
+* собирают интерфейс из компонентов
+
+### Components (UI элементы)
+
+* переиспользуемые
+* не привязаны к маршрутам
+* не содержат бизнес-логики
+
+---
+
+## Работа с API
+
+Вся коммуникация с backend выполняется через Axios слой.
+
+Прямые HTTP-запросы внутри компонентов запрещены.
+
+### Причины:
+
+* единая точка изменения API
+* централизованная обработка ошибок
+* возможность добавления interceptors (auth, refresh token)
+* отсутствие дублирования запросов
+
+---
+
+## Управление состоянием
+
+Используется два уровня состояния:
+
+### Локальное состояние (React)
+
+Используется для UI-логики конкретного компонента:
+
+* формы
+* модальные окна
+* вкладки
+* временные данные
+
+---
+
+### Глобальное состояние (Redux Toolkit)
+
+Используется для данных, которые нужны между страницами:
+
+* текущий пользователь
+* токен авторизации
+* роль пользователя
+* глобальные уведомления
+* общие данные системы
+
+---
+
+## Авторизация
+
+После входа данные пользователя сохраняются в Redux store.
+
+Это определяет:
+
+* доступ к маршрутам
+* отображение UI-элементов
+* доступ к административным функциям
+* поведение приложения в целом
+
+---
+
+## Назначение слоёв
+
+### api
+
+Слой взаимодействия с backend.
+
+* изолирует HTTP-логику
+* содержит все запросы к серверу
+
+---
+
+### store
+
+Глобальное состояние приложения.
+
+* Redux Toolkit
+* хранит только shared data
+
+---
+
+### routes
+
+Централизованная маршрутизация.
+
+* определяет все страницы
+* управляет доступом
+
+---
+
+### pages
+
+Страницы приложения.
+
+* соответствуют маршрутам
+* собирают UI и логику страницы
+
+---
+
+### components
+
+Переиспользуемые UI элементы.
+
+* кнопки, модалки, карточки и т.д.
+
+---
+
+### styles
+
+Глобальные стили приложения.
+
+* reset
+* layout
+* общие классы
+
+---
+
+### assets
+
+Статические ресурсы:
+
+* изображения
+* иконки
+* логотипы
+
+---
+
+## Основные принципы разработки
+
+1. Приложение работает как SPA без перезагрузок страниц.
+2. Навигация реализуется через React Router.
+3. Все запросы к backend идут через API слой.
+4. Redux используется только для глобальных данных.
+5. UI состояние остаётся локальным в компонентах.
+6. Pages не должны содержать переиспользуемую логику.
+7. Components не должны содержать бизнес-логику.
+8. Прямой доступ к DOM запрещён.
+9. Архитектура разделяет UI / API / STATE / ROUTING.
+10. Все изменения структуры проходят через соответствующие слои.

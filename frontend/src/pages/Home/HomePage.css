@@ -1,0 +1,239 @@
+/* =========================
+   HEADER TEXT
+========================= */
+
+.page-header {
+  margin-bottom: 24px;
+}
+
+.subtitle {
+  color: #6b7280;
+  margin-top: 6px;
+}
+
+/* =========================
+   STATS GRID
+========================= */
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+/* =========================
+   STAT CARD
+========================= */
+
+.stat-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 12px;
+  padding: 16px;
+
+  border-radius: 14px;
+  background: #fff;
+
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+}
+
+.stat-left {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stat-title {
+  font-size: 14px;
+  color: #777;
+}
+
+.stat-value {
+  font-size: 28px;
+  font-weight: 700;
+  margin-top: 8px;
+}
+
+/* (если потом вернёшь иконки) */
+.stat-icon {
+  width: 44px;
+  height: 44px;
+
+  border-radius: 12px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stat-icon img {
+  width: 22px;
+  height: 22px;
+  filter: brightness(0) invert(1);
+}
+
+.icon-blue {
+  background: #2b6fff;
+}
+.icon-green {
+  background: #22c55e;
+}
+.icon-purple {
+  background: #8b5cf6;
+}
+.icon-orange {
+  background: #f97316;
+}
+
+/* =========================
+   CONTENT GRID
+========================= */
+
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* =========================
+   CARD
+========================= */
+
+.card {
+  background: #fff;
+  border-radius: 14px;
+
+  padding: 18px;
+
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.card h2 {
+  margin: 0;
+}
+
+/* =========================
+   LIST ITEM (LESSONS)
+========================= */
+
+.item {
+  display: flex;
+  gap: 12px;
+
+  padding: 12px;
+
+  border: 1px solid #eee;
+  border-radius: 12px;
+
+  background: #fafafa;
+}
+
+.date-box {
+  width: 56px;
+  height: 56px;
+
+  background: #2b6fff;
+  color: #fff;
+
+  border-radius: 10px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  font-weight: 600;
+}
+
+.item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.item-info .title {
+  font-weight: 500;
+  color: #2f2f2f;
+}
+
+.item-info .time {
+  font-size: 13px;
+  color: #777;
+}
+
+/* =========================
+   NEWS
+========================= */
+
+.news-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.news-title {
+  font-weight: 500;
+  color: #2f2f2f;
+}
+
+.news-date {
+  font-size: 12px;
+  color: #888;
+}
+
+.news-text {
+  font-size: 14px;
+  color: #444;
+  line-height: 1.4;
+}
+
+/* =========================
+   FOOTERS
+========================= */
+
+.lessons-footer,
+.news-footer {
+  display: flex;
+  justify-content: center;
+
+  margin-top: 12px;
+  padding-top: 12px;
+}
+
+.view-all {
+  text-decoration: none;
+  color: #2b6fff;
+
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.view-all span {
+  margin-left: 4px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 1280px) {
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+}
