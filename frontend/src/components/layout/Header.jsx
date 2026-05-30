@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { logoutRequest } from "../../api/authApi";
+
 import "../../styles/header.css";
 import logo from "../../assets/icons/yacht_logo.svg";
 import SunIcon from "../../assets/icons/sun.svg";
@@ -13,6 +15,11 @@ export default function Header() {
     const newTheme = theme === "light" ? "dark" : "light";
     setTheme(newTheme);
     document.body.classList.toggle("dark-theme");
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    window.location.href = "/auth";
   };
 
   return (
@@ -55,7 +62,9 @@ export default function Header() {
             )}
           </div>
 
-          <a href="/logout" className="logout-btn">Выйти</a>
+          <button className="logout-btn" onClick={handleLogout}>
+            Выйти
+          </button>
 
         </div>
       </div>

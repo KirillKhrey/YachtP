@@ -20,32 +20,32 @@ export default function AuthPage() {
     phone: "",
   });
 
-  const handleLogin = async (e) => {
+    const handleLogin = async (e) => {
     e.preventDefault();
 
     try {
-      const res = await loginRequest({
-        email,
-        password,
-      });
+        const res = await loginRequest({ email, password });
 
-      console.log(res.data);
+        localStorage.setItem("token", res.data.token);
+
+        window.location.href = "/";
     } catch (err) {
-      console.error(err);
+        console.error(err.response?.data || err);
     }
-  };
+    };
 
-  const handleRegister = async (e) => {
+    const handleRegister = async (e) => {
     e.preventDefault();
 
     try {
-      const res = await registerRequest(reg);
+        await registerRequest(reg);
 
-      console.log(res.data);
+        alert("Заявка отправлена");
+        setMode("login");
     } catch (err) {
-      console.error(err);
+        console.error(err.response?.data || err);
     }
-  };
+    };
 
   return (
     <div className="auth-wrapper">

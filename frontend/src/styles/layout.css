@@ -12,21 +12,26 @@
   border-bottom: 1px solid #e5e7eb;
 }
 
-/* ОБЩИЙ СДВИГ ПОД HEADER */
+/* PAGE WRAPPER */
 .page {
   padding-top: 64px;
 }
 
-/* FLEX КОНТЕЙНЕР */
+/* FLEX CONTAINER */
 .container {
+  max-width: 1280px;
+  margin: 0 auto;
+
   display: flex;
+  position: relative;
 }
 
-/* SIDEBAR (ТОЛЬКО ПОЛОЖЕНИЕ) */
+/* SIDEBAR */
 .sidebar {
   position: fixed;
   top: 64px;
-  left: 0;
+  left: 50%;
+  transform: translateX(-640px);
 
   width: 260px;
   height: calc(100vh - 64px);
@@ -37,15 +42,20 @@
   overflow-y: auto;
 }
 
-/* MAIN AREA */
+/* MAIN */
 .main-content {
   flex: 1;
   margin-left: 260px;
   padding: 24px;
 }
 
-/* TABLET */
+/* <= 1280 */
 @media (max-width: 1280px) {
+  .sidebar {
+    left: 0;
+    transform: none;
+  }
+
   .main-content {
     margin-left: 260px;
   }
@@ -55,6 +65,7 @@
 @media (max-width: 900px) {
   .sidebar {
     left: -280px;
+    transform: none;
     transition: left 0.25s ease;
     z-index: 1100;
   }

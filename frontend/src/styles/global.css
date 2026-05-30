@@ -15,12 +15,6 @@ body {
   display: none !important;
 }
 
-/* контейнер (единый для всего проекта) */
-.container {
-  max-width: 1280px;
-  margin: 0 auto;
-}
-
 /* ссылки */
 a {
   color: inherit;
